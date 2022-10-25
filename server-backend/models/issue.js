@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const opinionSchema = new Schema({
+const issueSchema = new Schema({
   title: {
     type: String,
     required: true
@@ -9,17 +9,9 @@ const opinionSchema = new Schema({
   description: {
     type: String
   },
-  likes: {
-    type: Number,
-    default: 0
-  },
-  dislikes: {
-    type: Number,
-    default: 0
-  },
-  imgUrl: {
-    type: String,
-    required: true
+  completed: {
+    type: Boolean,
+    default: false
   },
   user: {
     type: Schema.Types.ObjectId,
@@ -28,4 +20,4 @@ const opinionSchema = new Schema({
   }
 })
 
-module.exports = mongoose.model("Opinion", opinionSchema)
+module.exports = mongoose.model("Issue", issueSchema)
