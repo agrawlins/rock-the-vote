@@ -34,7 +34,6 @@
 
 .auth-container > p {
     margin: 16px;
-    text-decoration: underline;
 }
 
 .auth-container > form {
@@ -80,7 +79,6 @@
 
 .profile > h3 {
     margin: 16px 0;
-    text-decoration: underline;
 }
 
 .profile > form {

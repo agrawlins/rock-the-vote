@@ -74,7 +74,7 @@ const UserProvider = (props) => {
     }
 
     const getUserIssues= () => {
-        userAxios.get('/api/issue/user')
+        userAxios.get('/api/issues/user')
             .then(res => {
                 setUserState(prevState => ({
                     ...prevState,
@@ -85,8 +85,9 @@ const UserProvider = (props) => {
     }
 
     const addIssue = (newIssue) => {
-        userAxios.post("/api/issue", newIssue)
+        userAxios.post("/api/issues", newIssue)
             .then(res => {
+                getUserIssues()
                 setUserState(prevState => ({
                     ...prevState,
                     issues: [...prevState.issues, res.data]
