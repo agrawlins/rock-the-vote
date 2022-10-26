@@ -24,22 +24,16 @@ export default function CommentForm(props){
     setInputs(initInputs)
   }
 
-  const { title, description, imgUrl } = inputs
+  const { description } = inputs
   return (
     <form onSubmit={handleSubmit}>
-      <input 
-        type="text" 
-        name="title" 
-        value={title} 
-        onChange={handleChange} 
-        placeholder="Title"/>
       <input 
         type="text" 
         name="description" 
         value={description} 
         onChange={handleChange} 
         placeholder="Description"/>
-      <button>Add Comment</button>
+      <button>Comment</button>
     </form>
   )
 }

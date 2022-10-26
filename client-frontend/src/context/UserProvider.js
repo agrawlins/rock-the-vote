@@ -96,16 +96,16 @@ const UserProvider = (props) => {
             .catch(err => console.log(err.response.data.errMsg))
     }
 
-    // const addComment = (newComment) => {
-    //     userAxios.post("/api/issue/comment", newComment)
-    //         .then(res => {
-    //             setUserState(prevState => ({
-    //                 ...prevState,
-    //                 comments: [...prevState.comments, res.data]
-    //             }))
-    //         })
-    //         .catch(err => console.log(err.response.data.errMsg))
-    // }
+    const addComment = (newComment) => {
+        userAxios.post("/api/issues/comment", newComment)
+            .then(res => {
+                setUserState(prevState => ({
+                    ...prevState,
+                    comments: [...prevState.comments, res.data]
+                }))
+            })
+            .catch(err => console.log(err.response.data.errMsg))
+    }
 
     return (
         <UserContext.Provider
@@ -115,6 +115,7 @@ const UserProvider = (props) => {
                 login,
                 logout,
                 addIssue,
+                addComment,
                 resetAuthErr  
             }}>
             {props.children}
