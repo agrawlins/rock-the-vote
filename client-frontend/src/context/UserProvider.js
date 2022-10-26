@@ -73,6 +73,17 @@ const UserProvider = (props) => {
         }))
     }
 
+    const getAllIssues= () => {
+        userAxios.get('/api/issues')
+            .then(res => {
+                setUserState(prevState => ({
+                    ...prevState,
+                    issues: res.data
+                }))
+            })
+            .catch(err => console.log(err.response.data.errMsg))
+      }
+
     const getUserIssues= () => {
         userAxios.get('/api/issues/user')
             .then(res => {
@@ -114,6 +125,7 @@ const UserProvider = (props) => {
                 signup,
                 login,
                 logout,
+                getAllIssues,
                 addIssue,
                 addComment,
                 resetAuthErr  
