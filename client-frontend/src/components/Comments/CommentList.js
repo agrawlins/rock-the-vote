@@ -1,5 +1,5 @@
 import React from 'react'
-import Comment from './Issues/Issue.js'
+import Comment from './Comment.js'
 
 export default function CommentList(props){
   const {comments} = props

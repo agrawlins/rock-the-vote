@@ -39,7 +39,7 @@ const UserProvider = (props) => {
             const {user, token} = res.data
             localStorage.setItem("token", token)
             localStorage.setItem("user", JSON.stringify(user))
-            getUserIssues()
+            getIssues()
             setUserState(prevUserState => ({
                 ...prevUserState,
                 user,
@@ -73,7 +73,7 @@ const UserProvider = (props) => {
         }))
     }
 
-    const getUserIssues= () => {
+    const getIssues= () => {
         userAxios.get('/api/issues')
             .then(res => {
                 setUserState(prevState => ({
@@ -87,10 +87,21 @@ const UserProvider = (props) => {
     const addIssue = (newIssue) => {
         userAxios.post("/api/issues", newIssue)
             .then(res => {
-                getUserIssues()
+                getIssues()
                 setUserState(prevState => ({
                     ...prevState,
                     issues: [...prevState.issues, res.data]
+                }))
+            })
+            .catch(err => console.log(err.response.data.errMsg))
+    }
+
+    const getComments= () => {
+        userAxios.get('/api/issues/comments')
+            .then(res => {
+                setUserState(prevState => ({
+                    ...prevState,
+                    issues: res.data
                 }))
             })
             .catch(err => console.log(err.response.data.errMsg))
@@ -101,7 +112,7 @@ const UserProvider = (props) => {
             .then(res => {
                 setUserState(prevState => ({
                     ...prevState,
-                    comments: [...prevState.comments, res.data]
+                    comments: [...prevState.issues.comments, res.data]
                 }))
             })
             .catch(err => console.log(err.response.data.errMsg))

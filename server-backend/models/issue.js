@@ -9,9 +9,17 @@ const issueSchema = new Schema({
   description: {
     type: String
   },
-  completed: {
-    type: Boolean,
-    default: false
+  likes: [{
+    ref: "User",
+    type: Schema.Types.ObjectId
+  }],
+  dislikes: [{
+    ref: "User",
+    type: Schema.Types.ObjectId
+  }],
+  creationDate: {
+    type: Date,
+    default: Date.now
   },
   user: {
     type: Schema.Types.ObjectId,

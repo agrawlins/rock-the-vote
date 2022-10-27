@@ -1,10 +1,17 @@
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
+import { UserContext } from '../../context/UserProvider'
 import CommentForm from '../Comments/CommentForm'
+// import CommentList from '../Comments/CommentList'
 import ThumbsUp from '../Images/thumbsUp.png'
 
 export default function Issue(props){
   // const { title, description, imgUrl, _id} = props
-  const { title, description, likes, dislikes, addComment } = props
+  const { user, title, description, likes, dislikes, addComment } = props
+  const {
+    addIssue, 
+    issues,
+    comments
+  } = useContext(UserContext)
   const [toggle, setToggle] = useState(false)
 
   function toggleForm(){
@@ -13,12 +20,12 @@ export default function Issue(props){
 
   return (
     <div className="issue">
-      <p>Created by {}
-        Likes
+      <p>{user}
+        {likes.length}
         <button>
           <img className='thumbsUp' src={ThumbsUp} />
         </button>
-        Dislikes
+        {dislikes.length}
         <button>
           <img className='thumbsDown' src={ThumbsUp} />
         </button>
@@ -35,6 +42,7 @@ export default function Issue(props){
         <button onClick={toggleForm}>Cancel</button>
       </>
       }
+      {/* <CommentList comments = {comments}/> */}
     </div>
   )
 }
