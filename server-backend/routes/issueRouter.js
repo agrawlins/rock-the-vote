@@ -4,7 +4,22 @@ const Issue = require('../models/issue.js')
 
 // Get All Issues
 issueRouter.get("/", (req, res, next) => {
-  Issue.find((err, issues) => {
+  Issue.find()
+  .populate("author")
+  .exec((err, issues) => {
+    if(err){
+      res.status(500)
+      return next(err)
+    }
+    return res.status(200).send(issues)
+  })
+})
+
+// Get All Comments
+issueRouter.get("/comments", (req, res, next) => {
+  Issue.find()
+  .populate("author")
+  .exec((err, issues) => {
     if(err){
       res.status(500)
       return next(err)
@@ -14,23 +29,27 @@ issueRouter.get("/", (req, res, next) => {
 })
 
 // Get Issues by user id
-issueRouter.get("/user", (req, res, next) => {
-  Issue.find({ user: req.auth._id }, (err, issues) => {
-    if(err){
-      res.status(500)
-      return next(err)
-    }
-    return res.status(200).send(issues)
-  })
-})
+// issueRouter.get("/user", (req, res, next) => {
+//   console.log(req.auth)
+//   Issue.find({ author: req.auth._id })
+//   // .populate("author")
+//   // .exec((err, issues) => {
+//   //   console.log(issues)
+//   //   if(err){
+//   //     res.status(500)
+//   //     return next(err)
+//   //   }
+//   //   return res.status(200).send(issues)
+//   // })
+// })
 
 // Add new Issue
 issueRouter.post("/", (req, res, next) => {
-  req.body.user = req.auth._id
+  req.body.author = req.auth._id
   const newIssue = new Issue(req.body)
   newIssue.save((err, savedIssue) => {
     if(err){
-      res.status(500)
+      res.status(500) 
       return next(err)
     }
     return res.status(201).send(savedIssue)
@@ -40,7 +59,7 @@ issueRouter.post("/", (req, res, next) => {
 // Delete Issue
 issueRouter.delete("/:issueId", (req, res, next) => {
   Issue.findOneAndDelete(
-    { _id: req.params.issueId, user: req.auth._id },
+    { _id: req.params.issueId, author: req.auth._id },
     (err, deletedIssue) => {
       if(err){
         res.status(500)
@@ -54,7 +73,7 @@ issueRouter.delete("/:issueId", (req, res, next) => {
 // Update Issue
 issueRouter.put("/:issueId", (req, res, next) => {
   Issue.findOneAndUpdate(
-    { _id: req.params.issueId, user: req.auth._id },
+    { _id: req.params.issueId, author: req.auth._id },
     req.body,
     { new: true },
     (err, updatedIssue) => {

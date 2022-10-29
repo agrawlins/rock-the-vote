@@ -6,11 +6,11 @@ const initInputs = {
   imgUrl: ""
 }
 
-export default function CommentForm(props){
+const CommentForm = (props) => {
   const [inputs, setInputs] = useState(initInputs)
   const {addComment} = props
 
-  function handleChange(e){
+  const handleChange = (e) =>{
     const {name, value} = e.target
     setInputs(prevInputs => ({
       ...prevInputs,
@@ -18,7 +18,7 @@ export default function CommentForm(props){
     }))
   }
 
-  function handleSubmit(e){
+  const handleSubmit = (e) => {
     e.preventDefault()
     addComment(inputs)
     setInputs(initInputs)
@@ -37,3 +37,5 @@ export default function CommentForm(props){
     </form>
   )
 }
+
+export default CommentForm

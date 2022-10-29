@@ -5,13 +5,13 @@ import { UserContext } from '../../context/UserProvider.js'
 
 const initInputs = { username: "", password: "" }
 
-export default function Auth(){
+const Auth = () => {
   const {signup, login, errMsg, resetAuthErr} = useContext(UserContext)
   
   const [inputs, setInputs] = useState(initInputs)
   const [toggle, setToggle] = useState(false)
 
-  function handleChange(e){
+  const handleChange = (e) => {
     const {name, value} = e.target
     setInputs(prevInputs => ({
       ...prevInputs,
@@ -19,17 +19,17 @@ export default function Auth(){
     }))
   }
 
-  function handleSignup(e){
+  const handleSignup = (e) => {
     e.preventDefault()
     signup(inputs)
   }
 
-  function handleLogin(e){
+  const handleLogin = (e) => {
     e.preventDefault()
     login(inputs)
   }
 
-  function toggleForm(){
+  const toggleForm = () => {
     setToggle(prev => !prev)
     resetAuthErr()
   }
@@ -63,3 +63,5 @@ export default function Auth(){
     </div>
   )
 }
+
+export default Auth

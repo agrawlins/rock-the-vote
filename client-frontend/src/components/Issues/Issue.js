@@ -4,34 +4,42 @@ import CommentForm from '../Comments/CommentForm'
 // import CommentList from '../Comments/CommentList'
 import ThumbsUp from '../Images/thumbsUp.png'
 
-export default function Issue(props){
+const Issue = (props) => {
   // const { title, description, imgUrl, _id} = props
-  const { user, title, description, likes, dislikes, addComment } = props
+  const { author, title, description, likes, dislikes, creationDate, addComment } = props
   const {
-    addIssue, 
-    issues,
     comments
   } = useContext(UserContext)
   const [toggle, setToggle] = useState(false)
 
-  function toggleForm(){
+  const toggleForm = () => {
     setToggle(prev => !prev)
+  }
+
+  const checkCommentsIssues = () => {
+
   }
 
   return (
     <div className="issue">
-      <p>{user}
-        {likes.length}
-        <button>
-          <img className='thumbsUp' src={ThumbsUp} />
-        </button>
-        {dislikes.length}
-        <button>
-          <img className='thumbsDown' src={ThumbsUp} />
-        </button>
+      <p>
+        <div>
+            {author?.username} '{creationDate}'
+        </div>
+        <div>
+          <button>
+            {likes.length}
+            <img className='thumbsUp' src={ThumbsUp} />
+          </button>
+          <button>
+
+            {dislikes.length}
+            <img className='thumbsDown' src={ThumbsUp} />
+          </button>
+        </div>
       </p>
       <h1>{title}</h1>
-      <p>{description}</p>
+      <h4>{description}</h4>
       { !toggle ?
       <>
         <button onClick={toggleForm}>Add A Comment</button>
@@ -46,3 +54,5 @@ export default function Issue(props){
     </div>
   )
 }
+
+export default Issue

@@ -5,11 +5,11 @@ const initInputs = {
   description: "",
 }
 
-export default function IssueForm(props){
+const IssueForm = (props) => {
   const [inputs, setInputs] = useState(initInputs)
   const {addIssue} = props
 
-  function handleChange(e){
+  const handleChange = (e) => {
     const {name, value} = e.target
     setInputs(prevInputs => ({
       ...prevInputs,
@@ -17,7 +17,7 @@ export default function IssueForm(props){
     }))
   }
 
-  function handleSubmit(e){
+  const handleSubmit = (e) => {
     e.preventDefault()
     addIssue(inputs)
     setInputs(initInputs)
@@ -42,3 +42,5 @@ export default function IssueForm(props){
     </form>
   )
 }
+
+export default IssueForm

@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Comment(props){
+const Comment = (props) => {
   // const { title, description, imgUrl, _id} = props
   const { title, description} = props
   return (
@@ -10,3 +10,5 @@ export default function Comment(props){
     </div>
   )
 }
+
+export default Comment

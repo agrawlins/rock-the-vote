@@ -13,8 +13,8 @@ commentRouter.get("/", (req, res, next) => {
   })
 })
 
-// Get Comments by user id
-commentRouter.get("/user", (req, res, next) => {
+// Get Comments by issue id
+commentRouter.get("/:issueId", (req, res, next) => {
   Comment.find({ user: req.auth._id }, (err, comments) => {
     if(err){
       res.status(500)

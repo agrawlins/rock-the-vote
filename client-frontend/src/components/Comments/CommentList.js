@@ -1,7 +1,7 @@
 import React from 'react'
 import Comment from './Comment.js'
 
-export default function CommentList(props){
+const CommentList = (props) => {
   const {comments} = props
   return (
     <div className="comment-list">
@@ -9,3 +9,5 @@ export default function CommentList(props){
     </div>
   )
 }
+
+export default CommentList

@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function AuthForm(props){
+const AuthForm = (props) => {
   const {
     handleChange, 
     handleSubmit, 
@@ -31,3 +31,5 @@ export default function AuthForm(props){
     </form>
   )
 }
+
+export default AuthForm

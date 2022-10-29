@@ -63,14 +63,29 @@
     padding: 10px;
 }
 
-.issue > p > button {
-    margin: 10px;
-    border: 0;
-    background: none;
+.issue > p {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 5px;
 }
 
-.issue > p > button > img {
+.issue > p > div > p {
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+}
+
+.issue > p > div > button {
+    color: white;
+    border: 0;
+    background: none;
+    margin-left: 10px;
+}
+
+.issue > p > div > button > img {
     height: 15px;
+    margin-left: 5px;
 }
 
 .thumbsDown {

@@ -3,7 +3,8 @@ const Schema = mongoose.Schema
 
 const commentSchema = new Schema({
   description: {
-    type: String
+    type: String,
+    required: true
   },
   likes: [{
     ref: "User",

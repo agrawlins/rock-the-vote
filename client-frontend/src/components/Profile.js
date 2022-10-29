@@ -3,7 +3,7 @@ import IssueForm from './Issues/IssueForm.js'
 import IssueList from './Issues/IssueList.js'
 import { UserContext } from '../context/UserProvider.js'
 
-export default function Profile(){
+const Profile = () => {
   const {
     user: {
       username
@@ -21,3 +21,5 @@ export default function Profile(){
     </div>
   )
 }
+
+export default Profile

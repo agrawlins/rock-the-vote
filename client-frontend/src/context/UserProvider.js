@@ -76,6 +76,7 @@ const UserProvider = (props) => {
     const getIssues= () => {
         userAxios.get('/api/issues')
             .then(res => {
+                console.log(res.data)
                 setUserState(prevState => ({
                     ...prevState,
                     issues: res.data

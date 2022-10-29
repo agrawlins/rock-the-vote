@@ -6,7 +6,7 @@ import Profile from './components/Profile.js'
 import ProtectedRoute from './components/ProtectedRoute.js'
 import { UserContext } from './context/UserProvider.js'
 
-export default function App(){
+const App = () => {
   const {token, logout} = useContext(UserContext)
   return (
     <div className="app">
@@ -26,3 +26,5 @@ export default function App(){
     </div>
   )
 }
+
+export default App

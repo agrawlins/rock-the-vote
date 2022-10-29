@@ -7,7 +7,8 @@ const issueSchema = new Schema({
     required: true
   },
   description: {
-    type: String
+    type: String,
+    required: true
   },
   likes: [{
     ref: "User",
@@ -21,10 +22,9 @@ const issueSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  user: {
+  author: {
     type: Schema.Types.ObjectId,
     ref: "User",
-    required: true
   }
 })
 
