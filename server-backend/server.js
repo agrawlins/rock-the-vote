@@ -8,8 +8,11 @@ const {expressjwt} = require('express-jwt')
 app.use(express.json())
 app.use(morgan('dev'))
 
+
 mongoose.connect(
-  process.env.VOTE_URL,
+  // just changing this to get it working on my
+  // process.env.VOTE_URL,
+    'mongodb://localhost:27017/rtv-git-practice',
   () => console.log('Connected to the DB')
 )
 
