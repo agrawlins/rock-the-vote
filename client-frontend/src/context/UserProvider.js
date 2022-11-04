@@ -103,7 +103,7 @@ const UserProvider = (props) => {
     }
 
     const upvoteIssue = (_id, upvote) => {
-        userAxios.put(`/api/issues/upvote/${_id}`, upvote)
+        userAxios.put(`/api/issues/upvote/:issueId`, upvote)
         .then(res => {
             console.log(upvote, "upvote")
             getIssues()
@@ -116,7 +116,33 @@ const UserProvider = (props) => {
     }
 
     const downvoteIssue = (_id, downvote) => {
-        userAxios.put(`/api/issues/downvote/${_id}`, downvote)
+        userAxios.put(`/api/issues/downvote/:issueId`, downvote)
+        .then(res => {
+            console.log(downvote, "downvote")
+            getIssues()
+            setUserState(prevState => ({
+                ...prevState,
+                issues: [...prevState.issues, res.data]
+            }))
+        })
+        .catch(err => console.log(err.response.data.errMsg))
+    }
+
+    const upvoteComment = (_id, upvote) => {
+        userAxios.put(`/api/issues/upvote/:issueId`, upvote)
+        .then(res => {
+            console.log(upvote, "upvote")
+            getIssues()
+            setUserState(prevState => ({
+                ...prevState,
+                issues: [...prevState.issues, res.data]
+            }))
+        })
+        .catch(err => console.log(err.response.data.errMsg))
+    }
+
+    const downvoteComment = (_id, downvote) => {
+        userAxios.put(`/api/issues/downvote/:issueId`, downvote)
         .then(res => {
             console.log(downvote, "downvote")
             getIssues()
@@ -167,6 +193,8 @@ const UserProvider = (props) => {
                 addIssue,
                 upvoteIssue,
                 downvoteIssue,
+                upvoteComment,
+                downvoteComment,
                 addComment,
                 resetAuthErr  
             }}>
