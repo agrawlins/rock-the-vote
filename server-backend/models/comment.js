@@ -16,13 +16,13 @@ const commentSchema = new Schema({
   }],
   issue: {
     type: Schema.Types.ObjectId,
-    ref: "Todo",
-    required: true
+    ref: "Issue",
+    // required: true
   },
   author: {
     type: Schema.Types.ObjectId,
     ref: "User",
-    required: true
+    // required: true
   },
   creationDate: {
     type: Date,

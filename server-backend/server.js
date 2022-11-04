@@ -10,16 +10,14 @@ app.use(morgan('dev'))
 
 
 mongoose.connect(
-  // just changing this to get it working on my
-  // process.env.VOTE_URL,
-    'mongodb://localhost:27017/rtv-git-practice',
+  process.env.VOTE_URL,
   () => console.log('Connected to the DB')
 )
 
 app.use('/auth', require('./routes/authRouter.js'))
 app.use('/api', expressjwt({ secret: process.env.SECRET, algorithms: ['HS256'] })) // req.user
 app.use('/api/issues', require('./routes/issueRouter.js'))
-app.use('/api/issues/comments', require('./routes/commentRouter.js'))
+app.use('/api/comments', require('./routes/commentRouter.js'))
 
 app.use((err, req, res, next) => {
   console.log(err)

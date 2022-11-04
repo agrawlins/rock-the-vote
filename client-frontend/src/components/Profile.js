@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useEffect} from 'react'
 import IssueForm from './Issues/IssueForm.js'
 import IssueList from './Issues/IssueList.js'
 import { UserContext } from '../context/UserProvider.js'
@@ -11,6 +11,7 @@ const Profile = () => {
     addIssue, 
     issues
   } = useContext(UserContext)
+
   return (
     <div className="profile">
       <h1>Welcome {username}</h1>

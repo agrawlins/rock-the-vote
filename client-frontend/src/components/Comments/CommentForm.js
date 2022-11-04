@@ -1,14 +1,16 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { UserContext } from '../../context/UserProvider'
 
 const initInputs = {
-  title: "",
-  description: "",
-  imgUrl: ""
+  description: ""
 }
 
 const CommentForm = (props) => {
   const [inputs, setInputs] = useState(initInputs)
-  const {addComment} = props
+  // const {addComment} = props
+  const {
+    addComment
+  } = useContext(UserContext)
 
   const handleChange = (e) =>{
     const {name, value} = e.target

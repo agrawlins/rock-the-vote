@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import axios from 'axios'
 
 export const UserContext = React.createContext()
@@ -17,7 +17,12 @@ const UserProvider = (props) => {
         issues: [],
         errMsg: ""
     }
+    const initCommentState = {
+        comments: [],
+        errMsg: ""
+    }
     const [userState, setUserState] = useState(initState)
+    const [commentState, setCommentState] = useState(initCommentState)
     const signup = (credentials) => {
         axios.post("/auth/signup", credentials)
         .then(res => {
@@ -97,36 +102,71 @@ const UserProvider = (props) => {
             .catch(err => console.log(err.response.data.errMsg))
     }
 
+    const upvoteIssue = (_id, upvote) => {
+        userAxios.put(`/api/issues/upvote/${_id}`, upvote)
+        .then(res => {
+            console.log(upvote, "upvote")
+            getIssues()
+            setUserState(prevState => ({
+                ...prevState,
+                issues: [...prevState.issues, res.data]
+            }))
+        })
+        .catch(err => console.log(err.response.data.errMsg))
+    }
+
+    const downvoteIssue = (_id, downvote) => {
+        userAxios.put(`/api/issues/downvote/${_id}`, downvote)
+        .then(res => {
+            console.log(downvote, "downvote")
+            getIssues()
+            setUserState(prevState => ({
+                ...prevState,
+                issues: [...prevState.issues, res.data]
+            }))
+        })
+        .catch(err => console.log(err.response.data.errMsg))
+    }
+
     const getComments= () => {
-        userAxios.get('/api/issues/comments')
+        userAxios.get('/api/comments/')
             .then(res => {
-                setUserState(prevState => ({
+                setCommentState(prevState => ({
                     ...prevState,
-                    issues: res.data
+                    comments: res.data
                 }))
             })
             .catch(err => console.log(err.response.data.errMsg))
     }
 
     const addComment = (newComment) => {
-        userAxios.post("/api/issues/comment", newComment)
+        userAxios.post("/api/comments", newComment)
             .then(res => {
-                setUserState(prevState => ({
+                getComments()
+                setCommentState(prevState => ({
                     ...prevState,
-                    comments: [...prevState.issues.comments, res.data]
+                    comments: [res.data]
                 }))
             })
             .catch(err => console.log(err.response.data.errMsg))
     }
 
+    useEffect(() => {
+        getIssues()
+        getComments()
+    }, [])
+
     return (
         <UserContext.Provider
             value={{
                 ...userState,
+                ...commentState,
                 signup,
                 login,
                 logout,
                 addIssue,
+                upvoteIssue,
+                downvoteIssue,
                 addComment,
                 resetAuthErr  
             }}>

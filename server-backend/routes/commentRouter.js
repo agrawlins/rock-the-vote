@@ -15,7 +15,7 @@ commentRouter.get("/", (req, res, next) => {
 
 // Get Comments by issue id
 commentRouter.get("/:issueId", (req, res, next) => {
-  Comment.find({ user: req.auth._id }, (err, comments) => {
+  Comment.find({ issue: req.params.issueId }, (err, comments) => {
     if(err){
       res.status(500)
       return next(err)
@@ -46,7 +46,7 @@ commentRouter.delete("/:commentId", (req, res, next) => {
         res.status(500)
         return next(err)
       }
-      return res.status(200).send(`Successfully delete comment: ${deletedComment.title}`)
+      return res.status(200).send(`Successfully delete comment: ${deletedComment.description}`)
     }
   )
 })

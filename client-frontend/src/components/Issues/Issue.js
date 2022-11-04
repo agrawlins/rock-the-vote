@@ -1,14 +1,16 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import { UserContext } from '../../context/UserProvider'
 import CommentForm from '../Comments/CommentForm'
-// import CommentList from '../Comments/CommentList'
+import CommentList from '../Comments/CommentList'
 import ThumbsUp from '../Images/thumbsUp.png'
 
 const Issue = (props) => {
   // const { title, description, imgUrl, _id} = props
   const { author, title, description, likes, dislikes, creationDate, addComment } = props
   const {
-    comments
+    comments,
+    upvoteIssue, 
+    downvoteIssue
   } = useContext(UserContext)
   const [toggle, setToggle] = useState(false)
 
@@ -20,24 +22,27 @@ const Issue = (props) => {
 
   }
 
+  // useEffect(() => {
+
+  // }, [likes.length, dislikes.length]) 
+
   return (
     <div className="issue">
-      <p>
-        <div>
+      <div>
+        <p>
             {author?.username} '{creationDate}'
-        </div>
+        </p>
         <div>
-          <button>
+          <button onClick={upvoteIssue}>
             {likes.length}
             <img className='thumbsUp' src={ThumbsUp} />
           </button>
-          <button>
-
+          <button onClick={downvoteIssue}>
             {dislikes.length}
             <img className='thumbsDown' src={ThumbsUp} />
           </button>
         </div>
-      </p>
+      </div>
       <h1>{title}</h1>
       <h4>{description}</h4>
       { !toggle ?
@@ -50,7 +55,7 @@ const Issue = (props) => {
         <button onClick={toggleForm}>Cancel</button>
       </>
       }
-      {/* <CommentList comments = {comments}/> */}
+      <CommentList comments = {comments}/>
     </div>
   )
 }

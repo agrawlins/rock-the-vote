@@ -53,6 +53,11 @@
     border-radius: 4px;
 }
 
+.comment-list {
+    display: flex;
+    flex-direction: column;
+}
+
 .issue {
     color: white;
     margin: 10px;
@@ -63,29 +68,30 @@
     padding: 10px;
 }
 
-.issue > p {
+.issue > div {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     margin: 5px;
 }
 
-.issue > p > div > p {
+.issue > div > div > p {
     display: flex;
     flex-direction: column;
     margin-right: 10px;
 }
 
-.issue > p > div > button {
+.issue > div > div > button {
     color: white;
     border: 0;
     background: none;
     margin-left: 10px;
 }
 
-.issue > p > div > button > img {
+.issue > div > div > button > img {
     height: 15px;
     margin-left: 5px;
+    border-radius: 5px;
 }
 
 .thumbsDown {
