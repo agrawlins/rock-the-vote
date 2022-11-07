@@ -154,8 +154,19 @@ const UserProvider = (props) => {
         .catch(err => console.log(err.response.data.errMsg))
     }
 
+    // const getComments= () => {
+    //     userAxios.get('/api/comments/')
+    //         .then(res => {
+    //             setCommentState(prevState => ({
+    //                 ...prevState,
+    //                 comments: res.data
+    //             }))
+    //         })
+    //         .catch(err => console.log(err.response.data.errMsg))
+    // }
+
     const getComments= () => {
-        userAxios.get('/api/comments/')
+        userAxios.get('/api/comments/:issueId')
             .then(res => {
                 setCommentState(prevState => ({
                     ...prevState,
@@ -166,7 +177,7 @@ const UserProvider = (props) => {
     }
 
     const addComment = (newComment) => {
-        userAxios.post("/api/comments", newComment)
+        userAxios.post("/api/comments/:issueId", newComment)
             .then(res => {
                 getComments()
                 setCommentState(prevState => ({

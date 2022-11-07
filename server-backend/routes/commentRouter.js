@@ -25,8 +25,10 @@ commentRouter.get("/:issueId", (req, res, next) => {
 })
 
 // Add new Comment
-commentRouter.post("/", (req, res, next) => {
-  req.body.user = req.auth._id
+commentRouter.post("/:issueId", (req, res, next) => {
+  req.body.author = req.auth._id
+  req.body.issue = req.params.issueId
+  console.log(req)
   const newComment = new Comment(req.body)
   newComment.save((err, savedComment) => {
     if(err){
@@ -37,32 +39,63 @@ commentRouter.post("/", (req, res, next) => {
   })
 })
 
-// Delete Comment
-commentRouter.delete("/:commentId", (req, res, next) => {
+// // Delete Comment
+// commentRouter.delete("/:commentId", (req, res, next) => {
+//   Comment.findOneAndDelete(
+//     { _id: req.params.commentId, author: req.auth._id },
+//     (err, deletedComment) => {
+//       if(err){
+//         res.status(500)
+//         return next(err)
+//       }
+//       console.log(req.params)
+//       return res.status(200).send(`Successfully delete comment: ${deletedComment}`)
+//     }
+//   )
+// })
+
+// // Update Comment
+// commentRouter.put("/:commentId", (req, res, next) => {
+//   Comment.findOneAndUpdate(
+//     { _id: req.params.commentId, author: req.auth._id },
+//     req.body,
+//     { new: true },
+//     (err, updatedComment) => {
+//       if(err){
+//         res.status(500)
+//         return next(err)
+//       }
+//       return res.status(201).send(updatedComment)
+//     }
+//   )
+// })
+
+// Delete Issue
+commentRouter.delete("/:issueId", (req, res, next) => {
   Comment.findOneAndDelete(
-    { _id: req.params.commentId, user: req.auth._id },
-    (err, deletedComment) => {
+    { _id: req.params.issueId, user: req.auth._id },
+    (err, deletedIssue) => {
       if(err){
         res.status(500)
         return next(err)
       }
-      return res.status(200).send(`Successfully delete comment: ${deletedComment.description}`)
+      return res.status(200).send(`Successfully delete Issue: ${deletedIssue.description}`)
     }
   )
 })
 
 // Update Comment
-commentRouter.put("/:commentId", (req, res, next) => {
+commentRouter.put("/:issueId", (req, res, next) => {
   Comment.findOneAndUpdate(
-    { _id: req.params.commentId, user: req.auth._id },
+    { _id: req.params.issueId, user: req.auth._id },
     req.body,
     { new: true },
-    (err, updatedComment) => {
+    (err, updatedIssue) => {
       if(err){
         res.status(500)
         return next(err)
       }
-      return res.status(201).send(updatedComment)
+      return res.status(201).send(updatedIssue)
     }
   )
 })
@@ -140,7 +173,7 @@ commentRouter.put('/upvote/:commentId', (req, res, next)=>{
   )
 })
 
-// downvote/dislike issue, see upvote route for explanations
+// downvote/dislike comment, see upvote route for explanations
 commentRouter.put('/downvote/:commentId', (req, res, next) => {
   Comment.findOne(
     { _id: req.params.commentId },
@@ -150,8 +183,8 @@ commentRouter.put('/downvote/:commentId', (req, res, next) => {
           return next(err)
       }
       const userIdMatch = (element) => element == req.auth._id
-      const userPreviouslyDisliked = Comment.dislikes.findIndex(userIdMatch) > -1
-      const userPreviouslyLiked = Comment.likes.findIndex(userIdMatch) > -1
+      const userPreviouslyDisliked = comment.dislikes.findIndex(userIdMatch) > -1
+      const userPreviouslyLiked = comment.likes.findIndex(userIdMatch) > -1
       if (userPreviouslyLiked) {
         Comment.updateOne(
           { _id: req.params.commentId },
@@ -183,13 +216,13 @@ commentRouter.put('/downvote/:commentId', (req, res, next) => {
           { _id: req.params.commentId },
           { $addToSet: {dislikes: req.auth._id}},
           { new: true },
-          (err, downvotedIssue) => {
+          (err, downvotedComment) => {
             if(err) {
                 res.status(500)
                 return next(err)
             }
-            console.log(downvotedIssue, "downvotedIssue")
-            return res.status(201).send(downvotedIssue)
+            console.log(downvotedComment, "downvotedComment")
+            return res.status(201).send(downvotedComment)
           }
         )
           // User.updateOne(

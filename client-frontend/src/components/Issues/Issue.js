@@ -6,9 +6,10 @@ import ThumbsUp from '../Images/thumbsUp.png'
 
 const Issue = (props) => {
   // const { title, description, imgUrl, _id} = props
-  const { author, title, description, likes, dislikes, creationDate, addComment } = props
+  const { author, title, description, likes, dislikes, creationDate } = props
   const {
     comments,
+    addComment,
     upvoteIssue, 
     downvoteIssue
   } = useContext(UserContext)
@@ -51,7 +52,7 @@ const Issue = (props) => {
       </>
       :
       <>
-        <CommentForm addIssue = {addComment}/>
+        <CommentForm addComment = {addComment}/>
         <button onClick={toggleForm}>Cancel</button>
       </>
       }

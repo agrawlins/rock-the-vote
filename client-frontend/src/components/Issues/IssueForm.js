@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 const initInputs = {
   title: "",
   description: "",
+  author: {}
 }
 
 const IssueForm = (props) => {

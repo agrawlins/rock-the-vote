@@ -1,18 +1,16 @@
-import React, { useContext, useState } from 'react'
-import { UserContext } from '../../context/UserProvider'
+import React, { useState } from 'react'
 
 const initInputs = {
-  description: ""
+  description: "",
+  issue: {},
+  author: {}
 }
 
-const CommentForm = (props) => {
+const IssueForm = (props) => {
   const [inputs, setInputs] = useState(initInputs)
-  // const {addComment} = props
-  const {
-    addComment
-  } = useContext(UserContext)
+  const {addComment} = props
 
-  const handleChange = (e) =>{
+  const handleChange = (e) => {
     const {name, value} = e.target
     setInputs(prevInputs => ({
       ...prevInputs,
@@ -35,9 +33,9 @@ const CommentForm = (props) => {
         value={description} 
         onChange={handleChange} 
         placeholder="Description"/>
-      <button>Comment</button>
+      <button>Add Issue</button>
     </form>
   )
 }
 
-export default CommentForm
+export default IssueForm
