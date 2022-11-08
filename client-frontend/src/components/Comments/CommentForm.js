@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
 
-const initInputs = {
-  description: "",
-  issue: {},
-  author: {}
-}
-
-const IssueForm = (props) => {
+const CommentForm = (props) => {
+  const {issueId, addComment} = props
+  const initInputs = {
+    description: "",
+    issue: {issueId},
+    author: {}
+  }
   const [inputs, setInputs] = useState(initInputs)
-  const {addComment} = props
 
   const handleChange = (e) => {
     const {name, value} = e.target
@@ -20,7 +19,7 @@ const IssueForm = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    addComment(inputs)
+    addComment(issueId, inputs)
     setInputs(initInputs)
   }
 
@@ -32,10 +31,11 @@ const IssueForm = (props) => {
         name="description" 
         value={description} 
         onChange={handleChange} 
-        placeholder="Description"/>
+        placeholder="Description"
+      />
       <button>Add Issue</button>
     </form>
   )
 }
 
-export default IssueForm
+export default CommentForm

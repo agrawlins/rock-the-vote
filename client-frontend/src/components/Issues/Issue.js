@@ -1,31 +1,36 @@
 import React, {useContext, useEffect, useState} from 'react'
-import { UserContext } from '../../context/UserProvider'
+import { UserContext, userAxios } from '../../context/UserProvider'
 import CommentForm from '../Comments/CommentForm'
 import CommentList from '../Comments/CommentList'
 import ThumbsUp from '../Images/thumbsUp.png'
 
 const Issue = (props) => {
   // const { title, description, imgUrl, _id} = props
-  const { author, title, description, likes, dislikes, creationDate } = props
+  const { _id, issueId, author, title, description, likes, dislikes, creationDate } = props
   const {
-    comments,
     addComment,
     upvoteIssue, 
     downvoteIssue
   } = useContext(UserContext)
   const [toggle, setToggle] = useState(false)
+  const [comments, setComments] = useState([])
 
   const toggleForm = () => {
     setToggle(prev => !prev)
   }
-
-  const checkCommentsIssues = () => {
-
+  
+  const getCommentsByIssueId= (_id) => {
+    userAxios.get(`/api/comments/${_id}`)
+        .then(res => {
+            setComments(res.data)
+        })
+        .catch(err => console.log(err.response.data.errMsg))
   }
 
-  // useEffect(() => {
-
-  // }, [likes.length, dislikes.length]) 
+  useEffect(() => {
+    getCommentsByIssueId(_id)
+  }, [upvoteIssue || downvoteIssue])
+  
 
   return (
     <div className="issue">
@@ -34,25 +39,30 @@ const Issue = (props) => {
             {author?.username} '{creationDate}'
         </p>
         <div>
-          <button onClick={upvoteIssue}>
-            {likes.length}
+          <button onClick={() => upvoteIssue(_id)}>
+            {likes?.length}
             <img className='thumbsUp' src={ThumbsUp} />
           </button>
-          <button onClick={downvoteIssue}>
-            {dislikes.length}
+          <button onClick={() => downvoteIssue(_id)}>
+            {dislikes?.length}
             <img className='thumbsDown' src={ThumbsUp} />
           </button>
         </div>
       </div>
       <h1>{title}</h1>
-      <h4>{description}</h4>
+      <p>{description}</p>
+      <br/>
+      Comments
       { !toggle ?
       <>
         <button onClick={toggleForm}>Add A Comment</button>
       </>
       :
       <>
-        <CommentForm addComment = {addComment}/>
+        <CommentForm
+          addComment = {addComment}
+          issueId = {_id}
+        />
         <button onClick={toggleForm}>Cancel</button>
       </>
       }

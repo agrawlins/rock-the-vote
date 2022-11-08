@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 const commentSchema = new Schema({
   description: {
     type: String,
-    required: true
+    // required: true
   },
   likes: [{
     ref: "User",

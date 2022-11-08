@@ -15,11 +15,11 @@ const Comment = (props) => {
   return (
     <div className="comment">
       <div>
-        <p>
+        <h3>
             {author?.username} '{creationDate}'
-        </p>
+        </h3>
         <div>
-          <button onClick={upvoteComment}>
+          <button onClick={() => upvoteComment()}>
             {likes.length}
             <img className='thumbsUp' src={ThumbsUp} />
           </button>
@@ -29,7 +29,7 @@ const Comment = (props) => {
           </button>
         </div>
       </div>
-      <h3>{description}</h3>
+      <p>{description}</p>
     </div>
   )
 }

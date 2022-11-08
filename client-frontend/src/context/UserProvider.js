@@ -3,7 +3,7 @@ import axios from 'axios'
 
 export const UserContext = React.createContext()
 
-const userAxios = axios.create()
+export const userAxios = axios.create()
 userAxios.interceptors.request.use(config => {
     const token = localStorage.getItem('token')
     config.headers.Authorization = `Bearer ${token}`
@@ -44,7 +44,7 @@ const UserProvider = (props) => {
             const {user, token} = res.data
             localStorage.setItem("token", token)
             localStorage.setItem("user", JSON.stringify(user))
-            getIssues()
+            // getIssues()
             setUserState(prevUserState => ({
                 ...prevUserState,
                 user,
@@ -81,7 +81,6 @@ const UserProvider = (props) => {
     const getIssues= () => {
         userAxios.get('/api/issues/')
             .then(res => {
-                console.log(res.data)
                 setUserState(prevState => ({
                     ...prevState,
                     issues: res.data
@@ -102,30 +101,41 @@ const UserProvider = (props) => {
             .catch(err => console.log(err.response.data.errMsg))
     }
 
-    const upvoteIssue = (_id, upvote) => {
-        userAxios.put(`/api/issues/upvote/:issueId`, upvote)
-        .then(res => {
-            console.log(upvote, "upvote")
+    const upvoteIssue = (issueId) => {
+        userAxios.put(`/api/issues/upvote/${issueId}`)
+            .then(res => {
+            console.log("upvote")
             getIssues()
             setUserState(prevState => ({
-                ...prevState,
-                issues: [...prevState.issues, res.data]
+                ...prevState
             }))
         })
         .catch(err => console.log(err.response.data.errMsg))
     }
 
-    const downvoteIssue = (_id, downvote) => {
-        userAxios.put(`/api/issues/downvote/:issueId`, downvote)
+    // const downvoteIssue = (issueId, downvote) => {
+    //     userAxios.put(`/api/issues/downvote/${issueId}`, downvote)
+    //     .then(res => {
+    //         console.log(downvote, "downvote")
+    //         getIssues()
+    //         setUserState(prevState => ({
+    //             ...prevState,
+    //             issues: [...prevState.issues, res.data]
+    //         }))
+    //     })
+    //     .catch(err => console.log(err.response.data.errMsg, issueId))
+    // }
+
+    const downvoteIssue = (issueId) => {
+        userAxios.put(`/api/issues/downvote/${issueId}`)
         .then(res => {
-            console.log(downvote, "downvote")
+            console.log("downvote")
             getIssues()
             setUserState(prevState => ({
-                ...prevState,
-                issues: [...prevState.issues, res.data]
+                ...prevState
             }))
         })
-        .catch(err => console.log(err.response.data.errMsg))
+        .catch(err => console.log(err.response.data.errMsg, issueId))
     }
 
     const upvoteComment = (_id, upvote) => {
@@ -141,8 +151,8 @@ const UserProvider = (props) => {
         .catch(err => console.log(err.response.data.errMsg))
     }
 
-    const downvoteComment = (_id, downvote) => {
-        userAxios.put(`/api/issues/downvote/:issueId`, downvote)
+    const downvoteComment = (issueId, downvote) => {
+        userAxios.put(`/api/issues/downvote/${issueId}`, downvote)
         .then(res => {
             console.log(downvote, "downvote")
             getIssues()
@@ -165,39 +175,53 @@ const UserProvider = (props) => {
     //         .catch(err => console.log(err.response.data.errMsg))
     // }
 
-    const getComments= () => {
-        userAxios.get('/api/comments/:issueId')
+    // const getCommentsByIssueId= (_id) => {
+    //     userAxios.get(`/api/comments/${_id}`)
+    //         .then(res => {
+    //             setCommentState(prevState => ({
+    //                 ...prevState,
+    //                 comments: res.data
+    //             }))
+    //         })
+    //         .catch(err => console.log(err.response.data.errMsg))
+    // }
+
+    const addComment = (issueId, newComment) => {
+        userAxios.post(`/api/comments/${issueId}`, newComment)
             .then(res => {
+                getIssues()
                 setCommentState(prevState => ({
                     ...prevState,
-                    comments: res.data
+                    comments: [prevState.comments, res.data]
                 }))
             })
-            .catch(err => console.log(err.response.data.errMsg))
+            .catch(err => console.log(err.response.data.errMsg, issueId))
     }
 
-    const addComment = (newComment) => {
-        userAxios.post("/api/comments/:issueId", newComment)
-            .then(res => {
-                getComments()
-                setCommentState(prevState => ({
-                    ...prevState,
-                    comments: [res.data]
-                }))
-            })
-            .catch(err => console.log(err.response.data.errMsg))
-    }
+    // const addComment = (issue, newComment) => {
+    //     userAxios.post(`/api/comments/${issue._id}`, newComment)
+    //         .then(res => {
+    //             // getComments()
+    //             getCommentsByIssueId()
+    //             setCommentState(prevState => ({
+    //                 ...prevState,
+    //                 comments: [res.data]
+    //             }))
+    //         })
+    //         .catch(err => console.log(err.response.data.errMsg))
+    // }
 
     useEffect(() => {
         getIssues()
-        getComments()
+        // getComments()
     }, [])
 
     return (
         <UserContext.Provider
             value={{
+                userAxios,
                 ...userState,
-                ...commentState,
+                // ...commentState,
                 signup,
                 login,
                 logout,
@@ -207,6 +231,7 @@ const UserProvider = (props) => {
                 upvoteComment,
                 downvoteComment,
                 addComment,
+                // getCommentsByIssueId,
                 resetAuthErr  
             }}>
             {props.children}
