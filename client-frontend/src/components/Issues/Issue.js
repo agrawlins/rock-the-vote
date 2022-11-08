@@ -5,8 +5,7 @@ import CommentList from '../Comments/CommentList'
 import ThumbsUp from '../Images/thumbsUp.png'
 
 const Issue = (props) => {
-  // const { title, description, imgUrl, _id} = props
-  const { _id, issueId, author, title, description, likes, dislikes, creationDate } = props
+  const { _id, author, title, description, likes, dislikes, creationDate } = props
   const {
     addComment,
     upvoteIssue, 
@@ -29,7 +28,7 @@ const Issue = (props) => {
 
   useEffect(() => {
     getCommentsByIssueId(_id)
-  }, [upvoteIssue || downvoteIssue])
+  }, [ upvoteIssue || downvoteIssue])
   
 
   return (
@@ -53,6 +52,7 @@ const Issue = (props) => {
       <p>{description}</p>
       <br/>
       Comments
+      <br/>
       { !toggle ?
       <>
         <button onClick={toggleForm}>Add A Comment</button>

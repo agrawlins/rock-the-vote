@@ -28,6 +28,21 @@ issueRouter.get("/:issueId", (req, res, next) => {
   })
 })
 
+// Get Issues by author id
+issueRouter.get("/search/author", (req, res, next) => {
+  console.log(req.auth)
+  Issue.find({ author: req.auth._id })
+  .populate("author")
+  .exec((err, issues) => {
+    console.log(issues)
+    if(err){
+      res.status(500)
+      return next(err)
+    }
+    return res.status(200).send(issues)
+  })
+})
+
 // Get All Comments
 issueRouter.get("/comments", (req, res, next) => {
   Issue.find()
@@ -40,21 +55,6 @@ issueRouter.get("/comments", (req, res, next) => {
     return res.status(200).send(issues)
   })
 })
-
-// Get Issues by author id
-// issueRouter.get("/author", (req, res, next) => {
-//   console.log(req.auth)
-//   Issue.find({ author: req.auth._id })
-//   // .populate("author")
-//   // .exec((err, issues) => {
-//   //   console.log(issues)
-//   //   if(err){
-//   //     res.status(500)
-//   //     return next(err)
-//   //   }
-//   //   return res.status(200).send(issues)
-//   // })
-// })
 
 // Add new Issue
 issueRouter.post("/", (req, res, next) => {

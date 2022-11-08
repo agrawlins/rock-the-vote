@@ -6,10 +6,10 @@ import ThumbsUp from '../Images/thumbsUp.png'
 const Comment = (props) => {
   // const { title, description, imgUrl, _id} = props
   const { author, creationDate, description, likes, dislikes} = props
-  const {
-    upvoteComment, 
-    downvoteComment
-  } = useContext(UserContext)
+  // const {
+  //   upvoteComment, 
+  //   downvoteComment
+  // } = useContext(UserContext)
 
 
   return (
@@ -18,7 +18,7 @@ const Comment = (props) => {
         <h3>
             {author?.username} '{creationDate}'
         </h3>
-        <div>
+        {/* <div>
           <button onClick={() => upvoteComment()}>
             {likes.length}
             <img className='thumbsUp' src={ThumbsUp} />
@@ -27,7 +27,7 @@ const Comment = (props) => {
             {dislikes.length}
             <img className='thumbsDown' src={ThumbsUp} />
           </button>
-        </div>
+        </div> */}
       </div>
       <p>{description}</p>
     </div>

@@ -33,7 +33,7 @@ const CommentForm = (props) => {
         onChange={handleChange} 
         placeholder="Description"
       />
-      <button>Add Issue</button>
+      <button>Add Comment</button>
     </form>
   )
 }
