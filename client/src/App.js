@@ -19,15 +19,19 @@ const App = () => {
         />
         <Route 
           path="/public"
-          element={<ProtectedRoute token={token} redirectTo="/">
-            <Public />
-          </ProtectedRoute>}
+          element={
+            <ProtectedRoute token={token} redirectTo="/">
+              <Public />
+            </ProtectedRoute>
+          }
         />
         <Route 
           path="/profile"
-          element={<ProtectedRoute token={token} redirectTo="/">
-            <Profile />
-          </ProtectedRoute>}
+          element={
+            <ProtectedRoute token={token} redirectTo="/">
+              <Profile />
+            </ProtectedRoute>
+          }
         />
       </Routes>
     </div>
